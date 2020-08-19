@@ -1,26 +1,54 @@
-import React, {useState} from "react"
-import {useSelector,useDispatch} from "react-redux"
+import React,{useState} from "react"
+import {connect} from "react-redux"
 import {increment, decrement} from "../redux/actionCreator"
 
-const Counter =()=>{
-    const counterValue = useSelector(state=>state.counter)
-    const dispatch = useDispatch()
-    // const onIncrement =()=>{
-    //     return dispatch(increment())
-    // }
-    const [enterValue, setEnterValue]=useState()
-    const getEnterValue =(event)=>{
+// class Counter extends React.Component{
+
+//     render(){
+//         // const {counterValue, enterValue, onIncrement, onDecrement}=this.props
+//         return(
+//             <div>
+//             <h3>this is counter value {this.props.counterValue.counter}</h3>
+//             {/* <h3>this is enter value {enterValue}</h3> */}
+//         </div>
+//         )
+//     }
+// }
+const Counter=props=>{
+    const [enterValue,setEnterValue]=useState()
+
+    const onEnterValue =(event)=>{
         setEnterValue(event.target.value)
     }
-    return (
+    const onIncrement=()=>{
+        props.dispatch(increment(Number(enterValue)))
+    }
+    const onDecrement=()=>{
+        props.dispatch(decrement(Number(enterValue)))
+    }
+    console.log("this is counterValue::", typeof(props.counterValue), typeof(Number(enterValue)))
+    return(
         <div>
-            <h3>Current value: {counterValue}</h3>
-            <h3>You have entered: {enterValue}</h3>
-            <input onChange={getEnterValue}/>
-            <button onClick={()=>dispatch(increment(Number(enterValue)))}>INCREMENT</button>
-            <button onClick={()=>dispatch(decrement(Number(enterValue)))}>DECREMENT</button>
-        </div>
+        <h3>this is counter value {props.counterValue}</h3>
+        <input type="text" onChange={onEnterValue}/>
+        <h3>this is enter value {enterValue}</h3>
+        <button onClick={onIncrement}>increment</button>
+        <button onClick={onDecrement}>decrement</button>
+    </div>
     )
 }
 
-export default Counter
+const mapStateToProps = state=>{
+    return{
+        counterValue: state.counter.initValue,
+    }
+}
+// const mapDispatchToProps = dispatch=>{
+//     return{    
+//         onIncrement:()=>dispatch(increment(enterValue)),
+//         onDecrement:()=>dispatch(decrement)}
+
+// }
+export default connect(
+    mapStateToProps
+)(Counter)

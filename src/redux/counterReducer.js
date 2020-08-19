@@ -1,14 +1,22 @@
 const initState = {
     initValue: 0,
-    secondValue:2
+    enterValue:''
 }
 
-export const counterReducer = (state = initState.initValue, action) => {
+export const counterReducer = (state = initState, action) => {
     switch (action.type) {
+        case "ENTER":
+            return state.enterValue
         case "INCREMENT":
-            return state + action.payload;
+            return {
+                initValue: state.initValue + action.payload
+            }
+
+            
         case "DECREMENT":
-            return state - action.payload;
+            return {
+                initValue: state.initValue - action.payload
+            }
         default:
             return state
 

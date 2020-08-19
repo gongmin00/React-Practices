@@ -11,3 +11,10 @@ export const decrement =(enterValue)=>{
         payload: enterValue
     }
 }
+
+export const getEnterValue = (enterValue)=>{
+    return{
+        type:"ENTER",
+        payload:enterValue
+    }
+}
